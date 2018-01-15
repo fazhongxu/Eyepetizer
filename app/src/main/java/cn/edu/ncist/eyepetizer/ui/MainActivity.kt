@@ -1,9 +1,11 @@
 package cn.edu.ncist.eyepetizer.ui
 
+import android.annotation.SuppressLint
 import android.graphics.Typeface
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import cn.edu.ncist.eyepetizer.R
 import cn.edu.ncist.eyepetizer.ui.fragment.FindFragment
@@ -13,21 +15,69 @@ import cn.edu.ncist.eyepetizer.ui.fragment.MineFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+    var mHomeFragment: HomeFragment? = null
+    var mFindFragment: FindFragment? = null
+    var mHotFragment:HotFragment?= null
+    var mMineFragment:MineFragment?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initView()
         initToolbar()
+        initFragment(savedInstanceState)
     }
 
     private fun initView() {
         rb_home.isChecked = true
-        supportFragmentManager.beginTransaction().replace(R.id.fl_container,HomeFragment()).commit()
+        //supportFragmentManager.beginTransaction().replace(R.id.fl_container, HomeFragment()).commit()
         rb_home.setOnClickListener(this)
         rb_find.setOnClickListener(this)
         rb_hot.setOnClickListener(this)
         rb_mine.setOnClickListener(this)
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun initFragment(savedInstanceState: Bundle?) {
+        val beginTransaction = supportFragmentManager.beginTransaction()
+        if (savedInstanceState != null) {//程序意外崩溃情况
+            val fragments: List<Fragment> = supportFragmentManager.fragments
+            for (item in fragments) {
+                if (item is HomeFragment) {
+                    mHomeFragment = item
+                }
+
+                if (item is FindFragment) {
+                    mFindFragment = item
+                }
+
+                if (item is HotFragment) {
+                    mHotFragment = item
+                }
+
+                if (item is MineFragment) {
+                    mMineFragment = item
+                }
+            }
+        } else {
+            mHomeFragment = HomeFragment()
+            mFindFragment = FindFragment()
+            mHotFragment = HotFragment()
+            mMineFragment = MineFragment()
+
+            beginTransaction
+                    .add(R.id.fl_container,mHotFragment)
+                    .add(R.id.fl_container,mFindFragment)
+                    .add(R.id.fl_container,mHotFragment)
+                    .add(R.id.fl_container,mMineFragment)
+        }
+
+        beginTransaction
+                .show(mHomeFragment)
+                .hide(mFindFragment)
+                .hide(mHotFragment)
+                .hide(mMineFragment)
+                .commit()
     }
 
     private fun initToolbar() {
