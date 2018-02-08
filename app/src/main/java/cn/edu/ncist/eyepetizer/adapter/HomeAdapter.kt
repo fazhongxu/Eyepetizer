@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import cn.edu.ncist.eyepetizer.R
 import cn.edu.ncist.eyepetizer.bean.HomeBean
+import com.bumptech.glide.Glide
 
 /**
  * Created by xxl on 2017/7/23.
@@ -18,10 +19,11 @@ class HomeAdapter constructor(val context: Context,val homeBean:HomeBean) : Recy
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder?, position: Int) {
+        Glide.with(context).load(homeBean.issueList.get(0).itemList.get(0).data.image)?.into(holder?.ivPhoto)
     }
 
     override fun getItemCount(): Int {
-        return 0
+        return 1
     }
 
     class HomeViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
