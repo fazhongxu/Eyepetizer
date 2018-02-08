@@ -16,7 +16,7 @@ class RetrofitClient(context: Context, url: String) {
     var retrofit: Retrofit? = null
     var cache: Cache? = null
     val maxSize: Long = 30 * 24 * 60 * 60
-    val DEFAUL_TTIME: Long = 20
+    val DEFAUL_TTIME: Long = 2000
 
     init {
         cache = Cache(context.cacheDir, maxSize)
@@ -55,9 +55,6 @@ class RetrofitClient(context: Context, url: String) {
     }
 
     fun <T> create(service: Class<T>): T? {
-        if (service == null) {
-            throw RuntimeException("the service is null")
-        }
         return retrofit?.create(service)
     }
 }

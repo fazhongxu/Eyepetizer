@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             mMineFragment = MineFragment()
 
             beginTransaction
-                    .add(R.id.fl_container,mHotFragment)
+                    .add(R.id.fl_container,mHomeFragment)
                     .add(R.id.fl_container,mFindFragment)
                     .add(R.id.fl_container,mHotFragment)
                     .add(R.id.fl_container,mMineFragment)
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.rb_mine -> {
                 rb_mine.isChecked = true
-                rb_home.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
+                rb_mine.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
                 transaction.replace(R.id.fl_container, MineFragment())
             }
         }
